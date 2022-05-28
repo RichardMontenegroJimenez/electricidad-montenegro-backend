@@ -12,9 +12,13 @@ public class Obra implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	@Column(nullable=false)
 	private String denominacion;
+	@Column(nullable=false)
 	private String direccion;
+	@Column(nullable=false)
 	private String ciudad;
+	@Column(nullable=false)
 	private String encargado;
 
 	public long getId() {

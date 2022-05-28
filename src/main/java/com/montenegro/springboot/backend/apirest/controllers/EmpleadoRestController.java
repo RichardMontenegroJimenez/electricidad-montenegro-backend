@@ -1,9 +1,13 @@
 package com.montenegro.springboot.backend.apirest.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,38 +30,111 @@ public class EmpleadoRestController {
 	@Autowired
 	private IEmpleadoService empleadoService;
 	
+	//Devuelve todos los empleados
 	@GetMapping("/empleados")
 	public List<Empleado> index() {
 		return empleadoService.findAll();
 	}
 	
+	//Devuelve un empleado por su ID
 	@GetMapping("/empleados/{id}")
-	public Empleado show(@PathVariable Long id) {
-		return empleadoService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		
+		Empleado empleado = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		//Manejo de errores
+		try {
+			 empleado = empleadoService.findById(id);
+			 
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("erro", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		//Si el ID del empleado no existe en BBDD devuelve un error
+		if (empleado == null) {
+			response.put("mensaje", "El empleado ID: ".concat(id.toString().concat(" no existe en la base de datos")));
+			
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Empleado>(empleado, HttpStatus.OK);
 	}
 	
+	//Crear un empleado
 	@PostMapping("/empleados")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado create(@RequestBody Empleado empleado) {
-		return empleadoService.save(empleado);
+	public ResponseEntity<?> create(@RequestBody Empleado empleado) {
+		
+		Empleado empleadoNew = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			empleadoNew = empleadoService.save(empleado);
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar el insert en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "El empleado ha sido creado con éxito");
+		response.put("encargado", empleadoNew);
+		
+		return  new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	//Actualizar empleado por ID
 	@PutMapping("/empleados/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado update(@RequestBody Empleado empleado, @PathVariable Long id) {
-		Empleado empleadoActual = empleadoService.findById(id);
+	public ResponseEntity<?> update(@RequestBody Empleado empleado, @PathVariable Long id) {
 		
+		Empleado empleadoActual = empleadoService.findById(id);
+		Empleado empleadoUpdated = null;
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		//Si el id no existe en la BBDD devuelve un error
+		if (empleadoActual == null) {
+			response.put("mensaje", "Error: no se pudo editar, el empleado ID: ".concat(id.toString().concat(" no existe en la base de datos")));
+			
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		//Manejo de errores
+		try {
 		empleadoActual.setNombre(empleado.getNombre());
 		empleadoActual.setApellido(empleado.getApellido());
 		empleadoActual.setDni(empleado.getDni());
 		empleadoActual.setContratacion(empleado.getContratacion());
 		
-		return empleadoService.save(empleadoActual);
+		empleadoUpdated = empleadoService.save(empleadoActual);
+		
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al actualizar en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		//Si no da error ejecuta la acutalización
+		response.put("mensaje", "El empleado ha sido actualizada con éxito");
+		response.put("empleado", empleadoUpdated);
+		
+		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	//Eliminar encargado por ID
 	@DeleteMapping("/empleados/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delte(@PathVariable Long id) {
-		empleadoService.delete(id);
+	public ResponseEntity<?> delte(@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			empleadoService.delete(id);
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al eliminar de la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		 response.put("mensaje", "Empleado eliminado con éxito");
+		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 }

@@ -1,9 +1,13 @@
 package com.montenegro.springboot.backend.apirest.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,38 +30,111 @@ public class ObraRestController {
 	@Autowired
 	private IObraService obraService;
 	
+	//Devuelve todas las obras
 	@GetMapping("/obras")
 	public List<Obra> index() {
 		return obraService.findAll();
 	}
 	
+	//Devuelve una obra por su ID
 	@GetMapping("/obras/{id}")
-	public Obra show(@PathVariable Long id) {
-		return obraService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		
+		Obra obra = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		//manejo de errores
+		try {
+			 obra = obraService.findById(id);
+			 
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		//Si el id no existe en la BBDD devuelve un error
+		if (obra == null) {
+			response.put("mensaje", "La obra ID: ".concat(id.toString().concat(" no existe en la base de datos")));
+			
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Obra>(obra, HttpStatus.OK);
 	}
 	
+	//Crear una obra
 	@PostMapping("/obras")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Obra create(@RequestBody Obra obra) {
-		return obraService.save(obra);
+	public ResponseEntity<?> create(@RequestBody Obra obra) {
+		
+		Obra obraNew = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			obraNew = obraService.save(obra);
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar el insert en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "La obra ha sido creado con éxito");
+		response.put("obra", obraNew);
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	//Actualizar obra por ID
 	@PutMapping("/obras/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Obra update(@RequestBody Obra obra, @PathVariable Long id) {
-		Obra obraActual = obraService.findById(id);
+	public ResponseEntity<?> update(@RequestBody Obra obra, @PathVariable Long id) {
 		
+		Obra obraActual = obraService.findById(id);
+		Obra obraUpdated = null;
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		//Si el id no existe en la BBDD devuelve un error
+		if (obraActual == null) {
+			response.put("mensaje", "Error: no se pudo editar, la obra ID: ".concat(id.toString().concat(" no existe en la base de datos")));
+			
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		//Manejo de errores
+		try {
 		obraActual.setDenominacion(obra.getDenominacion());
 		obraActual.setDireccion(obra.getDireccion());
 		obraActual.setCiudad(obra.getCiudad());
 		obraActual.setEncargado(obra.getEncargado());
 		
-		return obraService.save(obraActual);
+		obraUpdated = obraService.save(obraActual);
+		
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al actualizar en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		//Si no da error ejecuta la acutalización
+		response.put("mensaje", "La obra ha sido actualizada con éxito");
+		response.put("obra", obraUpdated);
+		
+		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	//Eliminar obra por ID
 	@DeleteMapping("/obras/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delte(@PathVariable Long id) {
-		obraService.delete(id);
+	public ResponseEntity<?> delte(@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			obraService.delete(id);
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al eliminar de la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		 response.put("mensaje", "Obra eliminada con éxito");
+		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 }

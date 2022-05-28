@@ -12,9 +12,13 @@ public class Empleado implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@Column(nullable=false)
 	private String nombre;
+	@Column(nullable=false)
 	private String apellido;
+	@Column(nullable=false, unique=true)
 	private String dni;
+	@Column(nullable=false)
 	private String contratacion;
 
 	public long getId() {
