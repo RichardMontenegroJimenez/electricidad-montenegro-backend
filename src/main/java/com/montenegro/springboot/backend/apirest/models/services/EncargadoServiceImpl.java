@@ -22,5 +22,26 @@ public class EncargadoServiceImpl implements IEncargadoService {
 		return (List<Encargado>) encargadoDao.findAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Encargado findById(Long id) {
+		
+		return encargadoDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Encargado save(Encargado encargado) {
+		
+		return encargadoDao.save(encargado);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		encargadoDao.deleteById(id);
+		
+	}
+
 
 }

@@ -22,5 +22,26 @@ public class ObraServiceImpl implements IObraService {
 		return (List<Obra>) obraDao.findAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Obra findById(Long id) {
+		
+		return obraDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Obra save(Obra obra) {
+		
+		return obraDao.save(obra);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		obraDao.deleteById(id);
+		
+	}
+
 
 }

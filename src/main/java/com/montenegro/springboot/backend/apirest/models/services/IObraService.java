@@ -6,4 +6,10 @@ import com.montenegro.springboot.backend.apirest.models.entity.Obra;
 
 public interface IObraService {
 	public List<Obra> findAll();
+	
+	public Obra findById(Long id);
+	
+	public Obra save(Obra obra);
+	
+	public void delete(Long id);
 }
