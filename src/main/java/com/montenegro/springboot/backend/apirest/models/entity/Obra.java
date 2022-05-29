@@ -2,7 +2,14 @@ package com.montenegro.springboot.backend.apirest.models.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="obras")
@@ -12,12 +19,20 @@ public class Obra implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	@NotEmpty(message = "no puede estar vacío")
+	@Size(min=4, max=14, message="debe contener entre 4 y 14 caracteres")
 	@Column(nullable=false)
 	private String denominacion;
+	
+	@NotEmpty(message = "no puede estar vacío")
 	@Column(nullable=false)
 	private String direccion;
+	
+	@NotEmpty(message = "no puede estar vacío")
 	@Column(nullable=false)
 	private String ciudad;
+	
+	@NotEmpty(message = "no puede estar vacío")
 	@Column(nullable=false)
 	private String encargado;
 

@@ -3,11 +3,15 @@ package com.montenegro.springboot.backend.apirest.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,11 +70,24 @@ public class EncargadoRestController {
 	//Crear un encargado
 	@PostMapping("/encargados")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> create(@RequestBody Encargado encargado) {
+	public ResponseEntity<?> create(@Valid @RequestBody Encargado encargado, BindingResult result) {
 		
 		Encargado encargadoNew = null;
 		Map<String, Object> response = new HashMap<>();
 		
+		//Validación
+		if(result.hasErrors()) {
+			
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+			
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		//Manejo de excepciones
 		try {
 			encargadoNew = encargadoService.save(encargado);
 		} catch(DataAccessException e) {
@@ -87,12 +104,24 @@ public class EncargadoRestController {
 	
 	//Actualizar encargado por ID
 	@PutMapping("/encargados/{id}")
-	public ResponseEntity<?> update(@RequestBody Encargado encargado, @PathVariable Long id) {
+	public ResponseEntity<?> update(@Valid @RequestBody Encargado encargado, BindingResult result ,@PathVariable Long id) {
 		
 		Encargado encargadoActual = encargadoService.findById(id);
 		Encargado encargadoUpdated = null;
 		
 		Map<String, Object> response = new HashMap<>();
+		
+		//Validación
+		if(result.hasErrors()) {
+			
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+			
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
 		
 		//Si el id no existe en la BBDD devuelve un error
 		if (encargadoActual == null) {
