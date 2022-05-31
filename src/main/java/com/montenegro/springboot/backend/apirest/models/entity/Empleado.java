@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "empleados")
@@ -33,9 +34,12 @@ public class Empleado implements Serializable {
 	@Column(nullable=false, unique=true)
 	private String dni;
 	
+	@NotNull(message = "no puede estar vacío")
 	@Column(nullable=false)
 	@Temporal(TemporalType.DATE)
 	private Date contratacion;
+	
+	private String foto;
 
 	public long getId() {
 		return id;
@@ -76,6 +80,15 @@ public class Empleado implements Serializable {
 	public void setContratacion(Date contratacion) {
 		this.contratacion = contratacion;
 	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
 
 	/**
 	 * 
