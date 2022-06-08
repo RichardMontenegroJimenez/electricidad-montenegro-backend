@@ -258,9 +258,21 @@ public class EmpleadoRestController {
 			e.printStackTrace();
 		}
 		
+		//Muestra por defecto imagen en caso de no existir
 		if(!recurso.exists() && !recurso.isReadable()) {
-			throw new RuntimeException("Error no se pudo cargar la imagen: " + nombreFoto);
+			Path rutaArchivoNoExiste = Paths.get("src/main/resources/static/images").resolve("no-usuario.png").toAbsolutePath();
+			
+			try {
+				recurso = new UrlResource(rutaArchivoNoExiste.toUri());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			
+			log.error("Error no se pudo cargar la imagen: " + nombreFoto);
 		}
+		
+		
+		
 		HttpHeaders cabecera = new HttpHeaders();
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 		
