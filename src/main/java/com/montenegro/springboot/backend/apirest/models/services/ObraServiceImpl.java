@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.montenegro.springboot.backend.apirest.models.dao.IObraDao;
+import com.montenegro.springboot.backend.apirest.models.entity.Encargado;
 import com.montenegro.springboot.backend.apirest.models.entity.Obra;
 
 @Service
@@ -41,6 +42,13 @@ public class ObraServiceImpl implements IObraService {
 	public void delete(Long id) {
 		obraDao.deleteById(id);
 		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Encargado> findAllEncargados() {
+		
+		return obraDao.findAllEncargados();
 	}
 
 

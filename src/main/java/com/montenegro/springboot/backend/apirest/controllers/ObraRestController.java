@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.montenegro.springboot.backend.apirest.models.entity.Encargado;
 import com.montenegro.springboot.backend.apirest.models.entity.Obra;
 import com.montenegro.springboot.backend.apirest.models.services.IObraService;
 
@@ -166,5 +167,11 @@ public class ObraRestController {
 		
 		 response.put("mensaje", "Obra eliminada con éxito");
 		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	//Obtiene encargados
+	@GetMapping("/obras/encargados")
+	public List<Encargado> listarEncargados(){
+		return obraService.findAllEncargados();
 	}
 }
