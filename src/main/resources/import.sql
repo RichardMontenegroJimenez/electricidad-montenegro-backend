@@ -17,13 +17,15 @@ INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Antonio', 'R
 INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Eva', 'Montenegro', '89898989F', '2020-02-28');
 
 /* Creamos algunos usuarios con sus roles */
-INSERT INTO `usuarios` (username, password, enabled) VALUES ('richard','',1);
-INSERT INTO `usuarios` (username, password, enabled) VALUES ('admin','',1);
+INSERT INTO `usuarios` (username, password, enabled) VALUES ('admin','$2a$10$BnCAjlhm9JAegDZxh5CwUOP6JQpfkJO.b.vyQ7UVnLmoq2/mE4eJ.',1);
+INSERT INTO `usuarios` (username, password, enabled) VALUES ('encargado','$2a$10$GKsGL1EtkzbAUNNn9B9s.OyZdruQGA0WVqgOK9yOEjyxuMw6IAEUS',1);
+INSERT INTO `usuarios` (username, password, enabled) VALUES ('empleado','$2a$10$qzxhL47xLubDoN8R6pNbpePfqc1tpSM/EBA5kNrvqZYFev0FDh5Nu',1);
 
-
-INSERT INTO `roles` (nombre) VALUES ('ROLE_USER');
 INSERT INTO `roles` (nombre) VALUES ('ROLE_ADMIN');
+INSERT INTO `roles` (nombre) VALUES ('ROLE_ENCARGADO');
+INSERT INTO `roles` (nombre) VALUES ('ROLE_EMPLEADO');
 
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 3);
+

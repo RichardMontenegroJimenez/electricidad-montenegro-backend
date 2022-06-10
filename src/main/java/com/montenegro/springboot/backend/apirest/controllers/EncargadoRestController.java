@@ -23,6 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,12 +52,14 @@ public class EncargadoRestController {
 	private final Logger log = LoggerFactory.getLogger(EncargadoRestController.class);
 	
 	//Devuelve todos los encargados
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/encargados")
 	public List<Encargado> index() {
 		return encargadoService.findAll();
 	}
 	
 	//Devuelve un encargado por su ID
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/encargados/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -84,6 +87,7 @@ public class EncargadoRestController {
 	}
 	
 	//Crear un encargado
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/encargados")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> create(@Valid @RequestBody Encargado encargado, BindingResult result) {
@@ -119,6 +123,7 @@ public class EncargadoRestController {
 	}
 	
 	//Actualizar encargado por ID
+	@Secured("ROLE_ADMIN")
 	@PutMapping("/encargados/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Encargado encargado, BindingResult result ,@PathVariable Long id) {
 		
@@ -169,6 +174,7 @@ public class EncargadoRestController {
 	
 	
 	//Eliminar encargado por ID
+	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/encargados/{id}")
 	public ResponseEntity<?> delte(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
@@ -199,6 +205,7 @@ public class EncargadoRestController {
 	}
 	
 	//Subida de imagen
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/encargados/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
 		Map<String, Object> response = new HashMap<>();
@@ -246,6 +253,7 @@ public class EncargadoRestController {
 	}
 	
 	//Método para mostrar la foto
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/uploads/img/encargado/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
 		

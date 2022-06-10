@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +44,7 @@ public class ObraRestController {
 	}
 	
 	//Devuelve una obra por su ID
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/obras/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -70,6 +72,7 @@ public class ObraRestController {
 	}
 	
 	//Crear una obra
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/obras")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> create(@Valid @RequestBody Obra obra, BindingResult result) {
@@ -104,6 +107,7 @@ public class ObraRestController {
 	}
 	
 	//Actualizar obra por ID
+	@Secured("ROLE_ADMIN")
 	@PutMapping("/obras/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Obra obra, BindingResult result, @PathVariable Long id) {
 		
@@ -154,6 +158,7 @@ public class ObraRestController {
 	}
 	
 	//Eliminar obra por ID
+	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/obras/{id}")
 	public ResponseEntity<?> delte(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
@@ -170,6 +175,7 @@ public class ObraRestController {
 	}
 	
 	//Obtiene encargados
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/obras/encargados")
 	public List<Encargado> listarEncargados(){
 		return obraService.findAllEncargados();
