@@ -15,3 +15,15 @@ INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Fran', 'Jime
 INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Laura', 'López', '67676767B', '2022-03-24');
 INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Antonio', 'Rodriguez', '12121212X', '2019-11-11');
 INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Eva', 'Montenegro', '89898989F', '2020-02-28');
+
+/* Creamos algunos usuarios con sus roles */
+INSERT INTO `usuarios` (username, password, enabled) VALUES ('richard','',1);
+INSERT INTO `usuarios` (username, password, enabled) VALUES ('admin','',1);
+
+
+INSERT INTO `roles` (nombre) VALUES ('ROLE_USER');
+INSERT INTO `roles` (nombre) VALUES ('ROLE_ADMIN');
+
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);
