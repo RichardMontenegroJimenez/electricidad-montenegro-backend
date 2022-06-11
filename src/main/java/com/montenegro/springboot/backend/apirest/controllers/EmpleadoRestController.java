@@ -23,6 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,12 +52,14 @@ public class EmpleadoRestController {
 	private final Logger log = LoggerFactory.getLogger(EmpleadoRestController.class);
 	
 	//Devuelve todos los empleados
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/empleados")
 	public List<Empleado> index() {
 		return empleadoService.findAll();
 	}
 	
 	//Devuelve un empleado por su ID
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/empleados/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -84,6 +87,7 @@ public class EmpleadoRestController {
 	}
 	
 	//Crear un empleado
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO"})
 	@PostMapping("/empleados")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> create(@Valid @RequestBody Empleado empleado, BindingResult result) {
@@ -118,6 +122,7 @@ public class EmpleadoRestController {
 	}
 	
 	//Actualizar empleado por ID
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO"})
 	@PutMapping("/empleados/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Empleado empleado, BindingResult result, @PathVariable Long id) {
 		
@@ -167,7 +172,8 @@ public class EmpleadoRestController {
 		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	//Eliminar encargado por ID
+	//Eliminar empleado por ID
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO"})
 	@DeleteMapping("/empleados/{id}")
 	public ResponseEntity<?> delte(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
@@ -199,6 +205,7 @@ public class EmpleadoRestController {
 	}
 	
 	//Subida de imagen
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO"})
 	@PostMapping("/empleados/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
 		Map<String, Object> response = new HashMap<>();

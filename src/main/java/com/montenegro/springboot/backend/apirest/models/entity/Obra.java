@@ -4,12 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="obras")
@@ -32,9 +38,11 @@ public class Obra implements Serializable{
 	@Column(nullable=false)
 	private String ciudad;
 	
-	@NotEmpty(message = "no puede estar vacío")
-	@Column(nullable=false)
-	private String encargado;
+	@NotNull(message="no puede estar vacío")
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="encargado_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Encargado encargado;
 
 	public long getId() {
 		return id;
@@ -68,11 +76,11 @@ public class Obra implements Serializable{
 		this.ciudad = ciudad;
 	}
 
-	public String getEncargado() {
+	public Encargado getEncargado() {
 		return encargado;
 	}
 
-	public void setEncargado(String encargado) {
+	public void setEncargado(Encargado encargado) {
 		this.encargado = encargado;
 	}
 	

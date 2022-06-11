@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.montenegro.springboot.backend.apirest.models.entity.Encargado;
 import com.montenegro.springboot.backend.apirest.models.entity.Obra;
 import com.montenegro.springboot.backend.apirest.models.services.IObraService;
 
@@ -42,6 +44,7 @@ public class ObraRestController {
 	}
 	
 	//Devuelve una obra por su ID
+	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/obras/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -69,6 +72,7 @@ public class ObraRestController {
 	}
 	
 	//Crear una obra
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/obras")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> create(@Valid @RequestBody Obra obra, BindingResult result) {
@@ -103,6 +107,7 @@ public class ObraRestController {
 	}
 	
 	//Actualizar obra por ID
+	@Secured("ROLE_ADMIN")
 	@PutMapping("/obras/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Obra obra, BindingResult result, @PathVariable Long id) {
 		
@@ -153,6 +158,7 @@ public class ObraRestController {
 	}
 	
 	//Eliminar obra por ID
+	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/obras/{id}")
 	public ResponseEntity<?> delte(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
@@ -166,5 +172,12 @@ public class ObraRestController {
 		
 		 response.put("mensaje", "Obra eliminada con éxito");
 		 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	//Obtiene encargados
+	@Secured("ROLE_ADMIN")
+	@GetMapping("/obras/encargados")
+	public List<Encargado> listarEncargados(){
+		return obraService.findAllEncargados();
 	}
 }
