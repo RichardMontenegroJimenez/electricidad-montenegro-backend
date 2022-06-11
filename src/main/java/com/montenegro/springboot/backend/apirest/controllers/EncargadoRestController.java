@@ -253,7 +253,6 @@ public class EncargadoRestController {
 	}
 	
 	//Método para mostrar la foto
-	@Secured({"ROLE_ADMIN", "ROLE_ENCARGADO", "ROLE_EMPLEADO"})
 	@GetMapping("/uploads/img/encargado/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
 		
