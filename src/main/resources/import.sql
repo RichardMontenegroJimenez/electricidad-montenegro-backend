@@ -1,14 +1,22 @@
 /* Populate tabla encargados */
-INSERT INTO encargados (id, nombre, apellido, dni, contratacion) VALUES(5, 'Juan', 'Perez', '54545454J', '1998-01-09');
-INSERT INTO encargados (id, nombre, apellido, dni, contratacion) VALUES(6, 'María', 'Mtez', '67676767B', '2002-11-30');
-INSERT INTO encargados (id, nombre, apellido, dni, contratacion) VALUES(7, 'Pepe', 'Fdez', '12121212X', '2005-07-07');
-INSERT INTO encargados (id, nombre, apellido, dni, contratacion) VALUES(8, 'Ana', 'Sanz', '89898989F', '2020-03-12');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Juan', 'Perez', '54545454J', '1998-01-09');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('María', 'Mtez', '67676767B', '2002-11-30');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Pepe', 'Fdez', '12121212X', '2005-07-07');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Ana', 'Sanz', '89898989F', '2020-03-12');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Pedro', 'Jiménz', '15151515L', '2008-01-10');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Laura', 'Robles', '37373737N', '2014-11-22');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Antonio', 'Ortiz', '94949494M', '2019-07-05');
+INSERT INTO encargados (nombre, apellido, dni, contratacion) VALUES('Beatriz', 'Herrera', '26262626D', '2020-03-17');
 
 /* Populate tabla obras */
-INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(6, 'Comercial', 'Calle Goya', 'Madrid');
-INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(5, 'Hospital', 'Calle Rosales', 'Valencia');
-INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(8, 'Parque', 'Calle Gran Vía', 'Bilbao');
-INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(7, 'Parking', 'Calle Centro', 'Barcelona');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(1, 'Centro comercial Plaza Rio', 'Calle Goya', 'Madrid');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(2, 'Hospital Ramón y Cajal', 'Calle Rosales', 'Valencia');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(3, 'Parque Central', 'Calle Gran Vía', 'Bilbao');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(4, 'Parking Paseo de la Libertad', 'Paseo de la Libertad', 'Barcelona');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(5, 'Ikea centro', 'Calle Goya', 'Murcia');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(6, 'Paseo marítimo', 'Paseo marítio', 'Cádiz');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(7, 'Centro comercial central', 'Avenida de la Consitución', 'Sevilla');
+INSERT INTO obras (encargado_id, denominacion, direccion, ciudad) VALUES(8, 'Parking Europa', 'Calle Europa', 'Ciudad Real');
 
 /* Populate tabla empleados */
 INSERT INTO empleados (nombre, apellido, dni, contratacion) VALUES('Fran', 'Jimenez', '54545454J', '2021-12-01');
