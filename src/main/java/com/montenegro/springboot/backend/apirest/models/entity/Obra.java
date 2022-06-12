@@ -26,7 +26,7 @@ public class Obra implements Serializable{
 	private long id;
 	
 	@NotEmpty(message = "no puede estar vacío")
-	@Size(min=4, max=14, message="debe contener entre 4 y 14 caracteres")
+	@Size(min=10, max=30, message="debe contener entre 10 y 50 caracteres")
 	@Column(nullable=false)
 	private String denominacion;
 	
