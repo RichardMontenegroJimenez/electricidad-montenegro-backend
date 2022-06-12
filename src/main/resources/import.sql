@@ -37,6 +37,10 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 3);
 
-/* Populate tabla obras */
+/* Populate tabla empresas */
 INSERT INTO empresas (nombre, cif, email, text, create_at) VALUES('IKEA', 'F09090909', 'ikea@mail.es', 'texto plano p','2020-03-17');
+
+
+/* Populate tabla empresas */
+INSERT INTO aplicantes (nombre, dni, email, text, create_at) VALUES('Jose', '43434343A', 'jose43@mail.es', 'texto plano aplicante','2022-03-12');
 

@@ -18,8 +18,8 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name="empresas")
-public class Empresa implements Serializable {
+@Table(name="aplicantes")
+public class Aplicante implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class Empresa implements Serializable {
 	
 	@NotEmpty(message ="no puede estar vacio")
 	@Column(nullable=false, unique=true)
-	private String cif;
+	private String dni;
 	
 	@NotEmpty(message ="no puede estar vacio")
 	@Email(message="no es una dirección de correo bien formada")
@@ -70,12 +70,12 @@ public class Empresa implements Serializable {
 		this.nombre = nombre;
 	}
 	
-	public String getCif() {
-		return cif;
+	public String getDni() {
+		return dni;
 	}
 
-	public void setCif(String cif) {
-		this.cif = cif;
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 	public String getEmail() {
