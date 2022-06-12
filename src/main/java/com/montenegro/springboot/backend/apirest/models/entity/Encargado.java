@@ -13,6 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "encargados")
@@ -23,14 +25,19 @@ public class Encargado implements Serializable {
 	private long id;
 
 	@NotEmpty(message = "no puede estar vacío")
+	@Size(min=4, max=20, message="el tamaño tiene que estar entre 4 y 20")
 	@Column(nullable=false)
 	private String nombre;
 	
 	@NotEmpty(message = "no puede estar vacío")
+	@Size(min=4, max=20, message="el tamaño tiene que estar entre 4 y 20")
 	@Column(nullable=false)
 	private String apellido;
 	
 	@NotEmpty(message = "no puede estar vacío")
+	@Size(min=9, max=9, message="el tamaño debe ser de 9 caracteres")
+	@Pattern(regexp="^(\\d{8})([A-Z])$", message="Introduce un formato valido de DNI,"
+			+ " la letra debe estar en mayúscula")
 	@Column(nullable=false, unique=true)
 	private String dni;
 	

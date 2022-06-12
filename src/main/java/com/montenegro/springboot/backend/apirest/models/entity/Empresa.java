@@ -14,6 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -26,11 +27,14 @@ public class Empresa implements Serializable {
 	private Long id;
 	
 	@NotEmpty(message ="no puede estar vacio")
-	@Size(min=4, max=20, message="el tamaño tiene que estar entre 4 y 20")
+	@Size(min=4, max=35, message="el tamaño tiene que estar entre 4 y 35")
 	@Column(nullable=false)
 	private String nombre;
 	
 	@NotEmpty(message ="no puede estar vacio")
+	@Size(min=9, max=9, message="el tamaño debe ser de 9 caracteres")
+	@Pattern(regexp="^([ABCDEFGHJKLMNPQRSUVW])(\\d{7})([0-9A-J])$", message="Introduce un formato valido de CIF,"
+			+ " la letra debe estar en mayúscula")
 	@Column(nullable=false, unique=true)
 	private String cif;
 	
@@ -40,7 +44,7 @@ public class Empresa implements Serializable {
 	private String email;
 	
 	@NotEmpty(message ="no puede estar vacio")
-	@Size(min=10, max=255, message="no puede contener maás de 255 carácteres ni menos de 10")
+	@Size(min=10, max=255, message="no puede contener más de 255 carácteres ni menos de 10")
 	@Column(nullable=false)
 	private String text;
 	
