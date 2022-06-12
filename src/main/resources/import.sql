@@ -38,9 +38,14 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 3);
 
 /* Populate tabla empresas */
-INSERT INTO empresas (nombre, cif, email, text, create_at) VALUES('IKEA', 'F09090909', 'ikea@mail.es', 'texto plano p','2020-03-17');
-
+INSERT INTO empresas (nombre, cif, email, text, create_at) VALUES('IKEA', 'F09090909', 'ikea@mail.es', 'texto plano para ikea de prueba','2020-03-17');
+INSERT INTO empresas (nombre, cif, email, text, create_at) VALUES('Amazon', 'G62626232', 'amazon@mail.es', 'texto plano para amazon','2022-01-08');
+INSERT INTO empresas (nombre, cif, email, text, create_at) VALUES('Google', 'J71236578', 'google@gmail.es', 'Hola, somos google. Queremos contratar vuestros servicios','2021-12-29');
+INSERT INTO empresas (nombre, cif, email, text, create_at) VALUES('Kiron Salud', 'D84548563', 'saludkiron@mail.es', 'texto plano para probar','2022-02-11');
 
 /* Populate tabla empresas */
-INSERT INTO aplicantes (nombre, dni, email, text, create_at) VALUES('Jose', '43434343A', 'jose43@mail.es', 'texto plano aplicante','2022-03-12');
+INSERT INTO aplicantes (nombre, dni, email, text, create_at) VALUES('Jose Francisco Rodríguez', '43434343A', 'jose43@mail.es', 'texto plano aplicante Jose','2022-03-12');
+INSERT INTO aplicantes (nombre, dni, email, text, create_at) VALUES('Antonio López', '65378352J', 'antoniol@mail.es', 'Hola, estoy buscando empleo. Me gustaría formar parte de vuestro equipo','2022-01-22');
+INSERT INTO aplicantes (nombre, dni, email, text, create_at) VALUES('Laura Rodríguez', '73573737S', 'laurarod@mail.es', 'texto plano aplicante','2021-10-10');
+INSERT INTO aplicantes (nombre, dni, email, text, create_at) VALUES('Mario Jiménez Sanz', '98346723B', 'mariojimenez@mail.es', 'Me gustaría aplicar a un puesto en esta empresa como electricista, espero vuestra respuesta.','2021-04-08');
 
